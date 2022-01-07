@@ -34,9 +34,19 @@ public class PersonService {
 		personRepository.findById(id)
 			.orElseThrow(() -> new ResponseStatusException(
 				HttpStatus.NOT_FOUND,
-				"Person with id value " + id + " don't exist"));
+				"Person with id value " + id + " do not exist"));
 		
 		return personRepository.findById(id);
+	}
+
+	public void deletePerson(Long id) {
+		Optional<Person> personDeleted = personRepository.findById(id);
+		
+		personDeleted.orElseThrow(() -> new ResponseStatusException(
+				HttpStatus.BAD_REQUEST,
+				"Person could not be deleted, because does not exist"));
+		
+		personDeleted.ifPresent((resp) -> personRepository.deleteById(resp.getId()));
 	}
 	
 }
