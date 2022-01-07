@@ -18,16 +18,25 @@ public class PersonService {
 	private PersonRepository personRepository;
 	
 	public Optional<Person> registerPerson(Person person) {
-		
 		if(personRepository.findByCpf(person.getCpf()).isPresent()){
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já cadastrado");
+			throw new ResponseStatusException(
+					HttpStatus.BAD_REQUEST, 
+					"Person is alredy resgiter");
 		}
-		
 		return Optional.of(personRepository.save(person));
 	}
 	
 	public List<Person> getAll() {
 		return personRepository.findAll();
+	}
+	
+	public Optional<Person> getById(Long id){
+		personRepository.findById(id)
+			.orElseThrow(() -> new ResponseStatusException(
+				HttpStatus.NOT_FOUND,
+				"Person with id value " + id + " don't exist"));
+		
+		return personRepository.findById(id);
 	}
 	
 }

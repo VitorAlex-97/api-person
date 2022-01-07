@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,11 @@ public class PersonController {
 	@GetMapping
 	public ResponseEntity<List<Person>> getAllPerson(){
 		return ResponseEntity.ok(personService.getAll());
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Optional<Person>> getByCpf(@PathVariable Long id){
+		return ResponseEntity.ok(personService.getById(id));
 	}
 	
 	@PostMapping
