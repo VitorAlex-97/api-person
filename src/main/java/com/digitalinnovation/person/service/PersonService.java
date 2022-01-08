@@ -49,4 +49,15 @@ public class PersonService {
 		personDeleted.ifPresent((resp) -> personRepository.deleteById(resp.getId()));
 	}
 	
+	public Optional<Person> update(Person personUpdate){
+		 Optional<Person> personToUpdate = personRepository.findById(personUpdate.getId());
+		 
+		 personToUpdate.orElseThrow(() -> new ResponseStatusException(
+				HttpStatus.NOT_FOUND,
+				"Person do not exist"));
+		
+		return Optional.of(personRepository.save(personUpdate));
+		 
+	}
+	
 }
